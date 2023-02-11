@@ -12,12 +12,14 @@ th_props = [
   ('text-align', 'center'),
   ('font-weight', 'bold'),
   ('color', '#6d6d6d'),
-  ('background-color', '#f7ffff')
+  ('background-color', '#f7ffff'),
+   ('font-family', ' Avenir Medium'),
   ]
                                
 td_props = [
   ('font-size', '14px'),
   ('text-align', 'center'),
+  ('font-family', 'Avenir'),
 #   ('background-color', '#ffffff'),
   ('color', '#000')
   ]
