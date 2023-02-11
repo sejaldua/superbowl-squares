@@ -16,7 +16,7 @@ th_props = [
                                
 td_props = [
   ('font-size', '14px'),
-  ('text-align', 'center')
+  ('text-align', 'center'),
   ('background-color', '#ffffff')
   ]
                                  
