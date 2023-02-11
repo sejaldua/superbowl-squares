@@ -4,6 +4,7 @@ from st_aggrid import AgGrid
 st.set_page_config(layout="wide")
 
 st.title("Lahoti Srivastava Dua Superbowl Squares :football:")
+st.write("Hi family! Welcome to superbowl squares! The grid has been made using some randomization code to accommodate the number of squares that everyone has requested. Please note that the numbers 0-9 that you see on the top and left of the grid will be shuffled shortly before kickoff!")
 
 # style
 th_props = [
