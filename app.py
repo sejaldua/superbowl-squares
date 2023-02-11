@@ -41,7 +41,7 @@ color_dict = {
 	'Eka'		    : '#FFDAC1',
 	'Sanvi'		    : '#F4978E',
 	'Sia'		    : '#F6EAC2',
-	'Ace'		    : '#FFE1E9',
+	'Ace'		    : '#BCA89F',
 	'Sunil'		    : '#9AB7D3',
 	'Abs'		    : '#F5D2D3',
 	'Jayden'		: '#A2D2FF',
