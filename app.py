@@ -33,5 +33,7 @@ df = pd.read_excel('superbowl_squares.xlsx', index_col=[0,1], header=[0,1])
 df = df.reset_index().fillna(method='ffill', axis=0).set_index('level_0')
 print(df.columns)
 df.columns = pd.MultiIndex.from_tuples([(col[0], col[1]) if col[0] != 'level_1' else ('', col[1]) for col in df.columns])
+for col in df.columns:
+    df[col] = df[col].replace("Hanuman", "HDL")
 # st.dataframe(df.style.apply(lambda x: "background-color: red"))
 st.table(df.style.set_table_styles(styles))
