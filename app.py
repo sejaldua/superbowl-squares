@@ -53,22 +53,36 @@ color_dict = {
 }
 
 def get_current_score():
-  # url = 'https://www.pro-football-reference.com/boxscores/202302120phi.htm'
-  url = "https://www.pro-football-reference.com/boxscores/202301290phi.htm"
+  url = 'https://www.pro-football-reference.com/boxscores/202302120phi.htm'
+  # url = "https://www.pro-football-reference.com/boxscores/202301290phi.htm"
   # Open URL and pass to BeautifulSoup
   html = urlopen(url)
-  soup = BeautifulSoup(html)
-  scorebox = soup.find("div", class_="scorebox")
-  scores = scorebox.find_all("div", class_="score")
-  teams = ['Philadelphia Eagles', 'Kansas City Chiefs']
-  live_scores = [score.text for score in scores]
-  return {t: int(s) for t, s in zip(teams, live_scores)}
+  try:
+    soup = BeautifulSoup(html)
+    scorebox = soup.find("div", class_="scorebox")
+    scores = scorebox.find_all("div", class_="score")
+    teams = ['Philadelphia Eagles', 'Kansas City Chiefs']
+    live_scores = [score.text for score in scores]
+    return {t: int(s) for t, s in zip(teams, live_scores)}
+  except:
+    return {}
+  
+def get_possible_scores(score):
+  team_indices = {team: [] for team in list(score.keys())}
+  for team, score in zip(list(score.keys()), list(score.values())):
+    team_indices[team].append((team, int(str(score)[-1:])))
+    team_indices[team].append((team, int(str(score + 3)[-1:])))
+    team_indices[team].append((team, int(str(score + 7)[-1:])))
+  return team_indices
 
-def style_specific_cell(x):
-    color = 'border: 2px dashed yellow;'
+def style_specific_cell(x, outcomes):
+    index1, index2 = outcomes.values()
+    curr_color = 'border: 2px solid black;'
     df1 = pd.DataFrame('', index=x.index, columns=x.columns)
-    print(df1.columns)
-    df1.loc[('Philadelphia Eagles', 8), ('Kansas City Chiefs', 6)] = color
+    df1.loc[index1[0], index2[0]] = curr_color
+    possible_color = 'border: 2px dashed green;'
+    for combo in [(0, 1), (0, 2), (1, 0), (2, 0)]:
+      df1.loc[index1[combo[0]], index2[combo[1]]] = possible_color
     return df1
 
 # df = pd.read_csv('superbowl_squares.csv', index_col='Unnamed: 0')
@@ -81,7 +95,13 @@ for col in df.columns:
 s = df.style.set_table_styles(styles)
 # st.dataframe(df.style.apply(lambda x: "border-color: red" if ))
 s2 = s.applymap(lambda v: f'background-color: {color_dict[v]};')
-# s3 = s.apply(style_specific_cell, axis=None)
+gamescore = get_current_score()
+if gamescore != {}:
+  indices = get_possible_scores(gamescore)
+  print(indices)
+  s3 = s.apply(lambda x: style_specific_cell(x, indices), axis=None)
 # s3 = s2.applymap(lambda v: 'border-color: red; border-width: 2' if )
-st.table(s2)
-print(get_current_score())
+  st.table(s3)
+else:
+  st.table(s2)
+print()
