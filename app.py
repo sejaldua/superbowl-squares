@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from st_aggrid import AgGrid
 st.set_page_config(layout="wide")
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
@@ -100,8 +99,6 @@ if gamescore != {}:
   indices = get_possible_scores(gamescore)
   print(indices)
   s3 = s.apply(lambda x: style_specific_cell(x, indices), axis=None)
-# s3 = s2.applymap(lambda v: 'border-color: red; border-width: 2' if )
   st.table(s3)
 else:
   st.table(s2)
-print()
