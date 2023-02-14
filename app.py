@@ -60,7 +60,7 @@ def get_current_score():
     soup = BeautifulSoup(html)
     scorebox = soup.find("div", class_="scorebox")
     scores = scorebox.find_all("div", class_="score")
-    teams = ['Philadelphia Eagles', 'Kansas City Chiefs']
+    teams = ['Kansas City Chiefs', 'Philadelphia Eagles']
     live_scores = [score.text for score in scores]
     return {t: int(s) for t, s in zip(teams, live_scores)}
   except:
