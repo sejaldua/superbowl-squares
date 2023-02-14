@@ -60,8 +60,8 @@ def get_current_score():
     soup = BeautifulSoup(html)
     scorebox = soup.find("div", class_="scorebox")
     scores = scorebox.find_all("div", class_="score")
-    teams = ['Kansas City Chiefs', 'Philadelphia Eagles']
-    live_scores = [score.text for score in scores]
+    teams = ['Philadelphia Eagles', 'Kansas City Chiefs']
+    live_scores = [score.text for score in scores][::-1]
     return {t: int(s) for t, s in zip(teams, live_scores)}
   except:
     return {}
@@ -96,6 +96,7 @@ s = df.style.set_table_styles(styles)
 s2 = s.applymap(lambda v: f'background-color: {color_dict[v]};')
 gamescore = get_current_score()
 if gamescore != {}:
+  print(gamescore)
   indices = get_possible_scores(gamescore)
   print(indices)
   s3 = s.apply(lambda x: style_specific_cell(x, indices), axis=None)
