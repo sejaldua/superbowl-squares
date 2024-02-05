@@ -12,58 +12,21 @@ people that are engaging in some friendly betting fun! The program has been made
 code to accommodate the number of squares that everyone has requested.
 """)
 
-def update_initial_df():
-  # print(st.session_state)
-  if 'info_df' in st.session_state and 'num_participants' in st.session_state and st.session_state['num_participants'] is not None:
-    print('updating initial df')
-    print('num participants update', st.session_state['num_participants'])
-    old_df = st.session_state['info_df'].copy()
-    print(old_df)
-    old_names = old_df['Name'].to_list()
-    print(old_names)
-    if len(old_names) <= int(st.session_state['num_participants']):
-      print('incremented count')
-      names = [*old_names, *(['']*(st.session_state['num_participants'] - len(old_names)))]
-    else:
-      print('decremented count')
-      names = old_names[:st.session_state['num_participants']]
-      
-    print(names)
-    default_squares = 100 // st.session_state['num_participants']
-    new_df = pd.DataFrame(list(zip(names, [default_squares]*st.session_state['num_participants'])), columns=['Name', 'Squares'])
-    new_df.index = new_df.index + 1
-    print('new df')
-    print(new_df)
-    st.session_state['init_df'] = new_df
-
 mode = st.sidebar.selectbox('Please select how you would like to enter your participant information', ['Manual Entry', 'Information Upload'])
 players = []
 squares = []
 if mode == 'Manual Entry':
   num_participants = st.sidebar.number_input('How many players do you have?', value=None if 'num_participants' not in st.session_state else st.session_state['num_participants'], min_value=2, max_value=100)
-  if 'num_participants' in st.session_state and st.session_state['num_participants'] != num_participants:
-      st.session_state['num_participants'] = num_participants
-      update_initial_df()
-  else:
-    st.session_state['num_participants'] = num_participants
-  print('num participants', st.session_state['num_participants'])
-  num_participants = st.session_state['num_participants']
-  print(st.session_state['num_participants'])
-  # st.session_state['num_participants'] = num_participants
   if num_participants is not None:
     default_squares = 100 // num_participants
-    if 'init_df' not in st.session_state:
-      init_df = pd.DataFrame(list(zip(['']*num_participants, [default_squares]*num_participants)), columns=['Name', 'Squares'])
-      print('resetting df')
-      init_flag = True
-      st.session_state['init_df'] = init_df
-    st.session_state['info_df'] = st.sidebar.data_editor(st.session_state['init_df'], use_container_width=True)
-    print(st.session_state['info_df'])
+    init_df = pd.DataFrame(list(zip(['']*num_participants, [default_squares]*num_participants)), columns=['Name', 'Squares'])
+    init_df.index = init_df.index + 1
+    st.sidebar.caption('Equal distributions of squares is assumed, but you are welcome to modify the table below.')
+    st.session_state['info_df'] = st.sidebar.data_editor(init_df, use_container_width=True)
     if st.session_state['info_df']['Name'].nunique() == num_participants:
       players = st.session_state['info_df']['Name'].to_list()
       squares = st.session_state['info_df']['Squares'].to_list()
 elif mode == 'Information Upload':
-  print('here')
   st.sidebar.caption('Please enter a 2-column CSV or XLSX file containing columns named "Name" and "Squares" (see example below)')
   st.sidebar.markdown('''
   | Name | Squares |
