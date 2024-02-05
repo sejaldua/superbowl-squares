@@ -49,8 +49,8 @@ styles = [
   dict(selector="td", props=td_props)
   ]
 
-palette = ['#FDD8B1', '#FFE5DE', '#F8BBD0', '#C1F0F3', '#DEF5F5', '#DCDCFE', '#EAF2D3', '#FC86A1', '#87CEEB', '#BDF7D3',
-'#ADBCA5', '#EAD637', '#A2D3C2', '#A499B3', '#9183EC', '#4CBDBB', '#F58266', '#38AECC', '#E5F98B']
+palette = ['#FDD8B1', '#FFE5DE', '#F8BBD0', '#C1F0F3', '#BDF7D3', '#DEF5F5', '#DCDCFE', '#EAF2D3', '#FC86A1', '#87CEEB',
+'#ADBCA5', '#EAD637', '#A2D3C2', '#A499B3', '#9183EC', '#4CBDBB', '#F58266', '#38AECC', '#E5F98B', '#BCA89F', '#F4978E']
 color_dict = {p: v for p, v in zip(players, palette[:len(players)])}
 color_dict['X'] = '#FFFFFF'
 print(color_dict)
