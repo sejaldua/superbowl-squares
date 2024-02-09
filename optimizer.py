@@ -2,7 +2,7 @@ from pulp import *
 
 def get_squares(Players, Squares):
     if sum(Squares) < 100:
-        Players.append('X')
+        Players.append('WILD')
         Squares.append(100-sum(Squares))
     squares_per_player = {k: v for k, v in zip(Players, Squares)}
 
@@ -16,7 +16,6 @@ def get_squares(Players, Squares):
 
     # Creating a Set of Variables
     choices = LpVariable.dicts("Choice",(Vals,Rows,Cols),0,1,LpInteger)
-    # print(choices)
 
     # Added arbitrary objective function
     prob += 0, "Arbitrary Objective Function"
