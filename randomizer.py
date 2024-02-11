@@ -19,4 +19,4 @@ def generate_random_numbers(team_name):
     
 generate_random_numbers("Kansas City Chiefs")
 time.sleep(0.5)
-generate_random_numbers("Philadelphia Eagles")
+generate_random_numbers("San Francisco 49ers")
