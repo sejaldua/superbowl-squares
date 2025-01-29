@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 st.set_page_config(layout="wide")
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
@@ -16,6 +17,13 @@ mode = st.sidebar.selectbox('Please select how you would like to enter your part
 players = []
 squares = []
 if mode == 'Manual Entry':
+  st.sidebar.write('Enter the short name of the two teams in the Super Bowl (e.g. KC, PHI)')
+  col1, col2 = st.sidebar.columns(2)
+  team1 = 'KC'
+  team2 = 'PHI'
+  team1 = col1.text_input('Team 1')
+  team2 = col2.text_input('Team 2')
+  randomize = st.sidebar.toggle('Randomize the digits on the axes?', value=True)
   num_participants = st.sidebar.number_input('How many players do you have?', value=None if 'num_participants' not in st.session_state else st.session_state['num_participants'], min_value=2, max_value=100)
   if num_participants is not None:
     default_squares = 100 // num_participants
@@ -81,8 +89,16 @@ if len(players) == num_participants and '' not in players and len(squares) == nu
   if st.sidebar.button('Generate Squares', use_container_width=True, type="primary"):
     matrix = get_squares(players, squares)
     df = pd.DataFrame(matrix, columns = list(range(10)))
-    df.index = [f'SF {x}' for x in df.index]
-    df.columns = [f'KC {x}' for x in df.columns]
+    l1 = list(range(10))
+    l2 = list(range(10))
+    if randomize:
+      np.random.shuffle(l1)
+      np.random.shuffle(l2)
+    else:
+      l1 = list(range(10))
+      l2 = list(range(10))
+    df.index = [f'{team1} {x}' for x in l2]
+    df.columns = [f'{team2} {x}' for x in l1]
     if num_participants <= len(palette):
       s = df.style.applymap(lambda v: f'background-color: {color_dict[v]};').set_table_styles(styles)
     else:
